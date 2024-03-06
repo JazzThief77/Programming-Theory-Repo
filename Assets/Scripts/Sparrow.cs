@@ -11,18 +11,30 @@ public class Sparrow : Animal
 		Debug.Log("1. Sparrow Constructor called.");
 	}
 	
-    public override void Spin()
-	{
-		Debug.Log(AnimalName + " is spinning...");
-	}
-	
-	public override void Jump()
+	public override void Jump(Animator animator)
 	{
 		Debug.Log(AnimalName + " is jumping...");
+		animator.Play("Eyes_Happy");
+		animator.SetBool("IsRolling", false);
+		animator.SetBool("IsSitting", false);
+		animator.SetBool("IsJumping", true);
 	}
 	
-	public override void DoSomethingElse()
+	public override void Trick(Animator animator)
 	{
-		Debug.Log(AnimalName + " is doing something else...");
+		Debug.Log(AnimalName + " is rolling...");
+		animator.Play("Eyes_Squint");
+		animator.SetBool("IsSitting", false);
+		animator.SetBool("IsJumping", false);
+		animator.SetBool("IsRolling", true);
+	}
+	
+	public override void Sit(Animator animator)
+	{
+		Debug.Log(AnimalName + " is sitting...");
+		animator.Play("Eyes_Sleep");
+		animator.SetBool("IsJumping", false);
+		animator.SetBool("IsRolling", false);
+		animator.SetBool("IsSitting", true);
 	}
 }

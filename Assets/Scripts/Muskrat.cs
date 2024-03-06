@@ -10,19 +10,31 @@ public class Muskrat : Animal
 		AnimalName = "Muskrat";
 		Debug.Log("1. Muskrat Constructor called.");
 	}
-	
-    public override void Spin()
-	{
-		Debug.Log(AnimalName + " is spinning...");
-	}
-	
-	public override void Jump()
+
+	public override void Jump(Animator animator)
 	{
 		Debug.Log(AnimalName + " is jumping...");
+		animator.Play("Eyes_Happy");
+		animator.SetBool("IsSpinning", false);
+		animator.SetBool("IsSitting", false);
+		animator.SetBool("IsJumping", true);
 	}
 	
-	public override void DoSomethingElse()
+	public override void Trick(Animator animator)
 	{
-		Debug.Log(AnimalName + " is doing something else...");
+		Debug.Log(AnimalName + " is spinning...");
+		animator.Play("Eyes_Spin");
+		animator.SetBool("IsSitting", false);
+		animator.SetBool("IsJumping", false);
+		animator.SetBool("IsSpinning", true);
+	}
+	
+	public override void Sit(Animator animator)
+	{
+		Debug.Log(AnimalName + " is sitting...");
+		animator.Play("Eyes_Sleep");
+		animator.SetBool("IsJumping", false);
+		animator.SetBool("IsSpinning", false);
+		animator.SetBool("IsSitting", true);
 	}
 }

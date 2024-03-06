@@ -17,6 +17,10 @@ public class MainManager : MonoBehaviour
 	private Animator sparrowAnimator;
 	private Animator taipanAnimator;
 	private Animator muskratAnimator;
+	private TextSizer sparrowTextSizer;
+	private TextSizer taipanTextSizer;
+	private TextSizer muskratTextSizer;
+	private bool isSelected;
 	
     void Start()
     {
@@ -42,6 +46,10 @@ public class MainManager : MonoBehaviour
         {
 			muskratAnimator = muskratObj.GetComponent<Animator>();
 		}
+		
+		sparrowTextSizer = sparrowText.GetComponent<TextSizer>();
+		taipanTextSizer = taipanText.GetComponent<TextSizer>();
+		muskratTextSizer = muskratText.GetComponent<TextSizer>();
     }
 
     void Update()
@@ -53,20 +61,66 @@ public class MainManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit)) // Check if the ray hits any collider
             {
+				isSelected = false;
+				
                 if (hit.collider.CompareTag("Sparrow")) // Check if the hit object is this object
                 {
-                    sparrow.Clicked(sparrowAnimator);
-					sparrow.TellName(sparrowText);
+					isSelected = true;
+					
+				    sparrow.Clicked(sparrowAnimator, isSelected);
+					sparrow.TellName(sparrowText, isSelected);
+					sparrowTextSizer.StartTextSizerCoroutine();
+					
+					taipan.StopSomething();
+					muskrat.StopSomething();
+					sparrow.DoSomething(sparrowAnimator);
+					
+					isSelected = false;
                 }
-				else if (hit.collider.CompareTag("Taipan"))
+				else
 				{
-					taipan.Clicked(taipanAnimator);
-					taipan.TellName(taipanText);
+					sparrow.Clicked(sparrowAnimator, isSelected);
+					sparrow.TellName(sparrowText, isSelected);
 				}
-				else if (hit.collider.CompareTag("Muskrat"))
+				
+				if (hit.collider.CompareTag("Taipan"))
 				{
-					muskrat.Clicked(muskratAnimator);
-					muskrat.TellName(muskratText);
+					isSelected = true;
+					
+					taipan.Clicked(taipanAnimator, isSelected);
+					taipan.TellName(taipanText, isSelected);
+					taipanTextSizer.StartTextSizerCoroutine();
+					
+					sparrow.StopSomething();
+					muskrat.StopSomething();
+					taipan.DoSomething(taipanAnimator);
+					
+					isSelected = false;
+				}
+				else
+				{
+					taipan.Clicked(taipanAnimator, isSelected);
+					taipan.TellName(taipanText, isSelected);
+				}
+				
+				if (hit.collider.CompareTag("Muskrat"))
+				{
+					isSelected = true;
+					
+					muskrat.Clicked(muskratAnimator, isSelected);
+					muskrat.TellName(muskratText, isSelected);
+					muskratTextSizer.StartTextSizerCoroutine();
+					
+					sparrow.StopSomething();
+					taipan.StopSomething();
+					muskrat.DoSomething(muskratAnimator);
+					
+					isSelected = false;
+				}
+				else
+				{
+					muskrat.Clicked(muskratAnimator, isSelected);
+					muskrat.TellName(muskratText, isSelected);
 				}
             }
         }

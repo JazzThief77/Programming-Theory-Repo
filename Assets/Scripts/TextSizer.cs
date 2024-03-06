@@ -21,9 +21,9 @@ public class TextSizer : MonoBehaviour
             yield return null; // Wait for the next frame
         }
     }
-
-    void Start()
-    {
-        StartCoroutine(SizeUpText()); // Start the coroutine
-    }
+	
+	public void StartTextSizerCoroutine()
+	{
+		StartCoroutine(SizeUpText());
+	}
 }
